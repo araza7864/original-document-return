@@ -1,0 +1,6 @@
+# Copy to db.properties for local Tomcat development. Environment variables override these values.
+DB_HOST=localhost
+DB_PORT=3306
+DB_NAME=origdocreturn
+DB_USER=origdocreturn
+DB_PASSWORD=replace-with-your-local-password

@@ -1,0 +1,4 @@
+include:
+  - project: "mreep-courses/cs321-ci-templates"
+    ref: main
+    file: "/.gitlab-ci-java-war.yml"

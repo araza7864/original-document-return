@@ -1,0 +1,40 @@
+name: Build and test
+on: [push, pull_request]
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    services:
+      mysql:
+        image: mysql:8.4
+        env:
+          MYSQL_DATABASE: portfolio_test
+          MYSQL_USER: portfolio_test
+          MYSQL_PASSWORD: synthetic-ci-password
+          MYSQL_ROOT_PASSWORD: synthetic-ci-root-password
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping -h localhost"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=12
+    env:
+      DB_HOST: 127.0.0.1
+      DB_PORT: '3306'
+      DB_NAME: portfolio_test
+      DB_USER: portfolio_test
+      DB_PASSWORD: synthetic-ci-password
+      RUN_DB_TESTS: 'true'
+    defaults:
+      run:
+        working-directory: origdocreturn-domain
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: maven
+      - run: mvn -B clean verify
